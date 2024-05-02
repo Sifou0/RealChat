@@ -4,24 +4,15 @@ interface credentialsType {
 }
 
 const authService = {
-    login: async (credentials: credentialsType): Promise<string> => {
-        try {
-            const response = await fetch("http://localhost:8080/login", {
+    login: async (credentials: credentialsType) => {
+            return fetch("http://localhost:5555/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(credentials),
-            });
-
-            if (!response.ok) {
-                throw new Error("Login failed");
-            }
-
-            const data = await response.json();
-            return data.token;
-        } catch (error) {
-            throw error;
-        }
+            }).then((data) => data.json());
     },
 };
+
+export default authService

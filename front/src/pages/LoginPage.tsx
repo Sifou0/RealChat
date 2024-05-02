@@ -1,15 +1,21 @@
-import { useState } from "react";
+import {FormEvent, useState} from "react";
+import authService from "../services/authService.ts";
 
-export default function LoginPage() {
+interface LoginPageProps {
+    setToken: (token: object) => void
+}
+
+export default function LoginPage({setToken}: LoginPageProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
         const credentials = {
             email: email,
             password: password,
         };
-        authService.login(credentials).then((data) => console.log(data));
+        authService.login(credentials).then((data) => setToken(data));
     };
 
     return (
@@ -44,6 +50,7 @@ export default function LoginPage() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+
                 <div className="mt-5">
                     <button
                         type="submit"
