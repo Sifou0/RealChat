@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-export default function verifyUserToken(
+function verifyUserToken(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -17,3 +17,14 @@ export default function verifyUserToken(
     next();
   });
 }
+
+function isTokenValid(token: string): boolean {
+  const JWT_SECRET = process.env.JWT_SECRET ?? "JWT_SECRET";
+  let isValid = false;
+  jwt.verify(token,JWT_SECRET,(err,user) => {
+    isValid = !err;
+  })
+  return isValid;
+}
+
+export { verifyUserToken,isTokenValid }

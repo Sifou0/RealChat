@@ -7,7 +7,7 @@ import {
   deleteUser,
   updateUser,
 } from "../../../controller/users/userController";
-import verifyUserToken from "../../../utils/auth/verifyToken";
+import {verifyUserToken} from "../../../utils/auth/verifyToken";
 
 const router = Router();
 

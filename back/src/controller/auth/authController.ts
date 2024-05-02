@@ -2,8 +2,9 @@ import createUserToken from "../../utils/auth/createToken";
 import { Request, Response } from "express";
 import { getUserByEmail } from "../../utils/db/users/UsersDb";
 import bcrypt from "bcrypt";
+import {isTokenValid} from "../../utils/auth/verifyToken.ts";
 
-async function login(req: Request, res: Response) {
+async function loginController(req: Request, res: Response) {
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
   if (user == null) {
@@ -23,4 +24,10 @@ async function login(req: Request, res: Response) {
   }
 }
 
-export { login };
+async function verifyController(req: Request, res: Response) {
+  const token = req.body.token;
+  const isValid = isTokenValid(token);
+  res.status(200).json(isValid);
+}
+
+export { loginController,verifyController };
